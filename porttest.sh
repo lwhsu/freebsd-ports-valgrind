@@ -42,7 +42,9 @@ for port in ${PORTS}; do
 	cd /usr/ports/${port}
 	make all-depends-list | awk -F'/' '{print $4"/"$5}' | xargs \
 	pkg fetch -y -o /usr/local/poudriere/data/packages/jail-default/.latest
+done
 
+for port in ${PORTS}; do
 	set +e
 	poudriere testport -j jail ${port}
 	RESULT=$?
