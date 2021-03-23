@@ -42,21 +42,22 @@ for port in ${PORTS}; do
 	cd /usr/ports/${port}
 	make all-depends-list | awk -F'/' '{print $4"/"$5}' | xargs \
 	pkg fetch -y -o /usr/local/poudriere/data/packages/jail-default/.latest
+
+	set +e
+	poudriere testport -j jail ${port}
+	RESULT=$?
+	set -e
+
+	if [ ${RESULT} -ne 0 ]; then
+		ls -l /usr/local/poudriere/data/logs/bulk/jail-default/latest/logs/errors
+		for i in /usr/local/poudriere/data/logs/bulk/jail-default/latest/logs/errors/*.log
+		do
+			echo ==== $i ====
+			cat $i
+		done
+		exit ${RESULT}
+	fi
+
 done
 
-set +e
-poudriere testport -j jail ${PORTS}
-RESULT=$?
-if [ ${RESULT} -eq 0 ]; then
-	exit 0
-fi
-set -e
-
-ls -l /usr/local/poudriere/data/logs/bulk/jail-default/latest/logs/errors
-for i in /usr/local/poudriere/data/logs/bulk/jail-default/latest/logs/errors/*.log
-do
-	echo ==== $i ====
-	cat $i
-done
-
-exit ${RESULT}
+exit 0
