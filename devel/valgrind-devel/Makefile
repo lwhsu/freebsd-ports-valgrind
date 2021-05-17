@@ -2,9 +2,8 @@
 # $FreeBSD: head/devel/valgrind-devel/Makefile 568606 2021-03-16 19:46:57Z yuri $
 
 PORTNAME=	valgrind
-PORTVERSION=	3.17.0.g20210219
+PORTVERSION=	3.18.0.g20210323
 DISTVERSIONPREFIX=	freebsd-
-#PORTREVISION=	0
 PORTEPOCH=	1
 CATEGORIES=	devel
 MASTER_SITES=	https://valgrind.org/
@@ -31,7 +30,7 @@ CONFLICTS=	valgrind-[0-9]*
 USE_GITHUB=	yes
 GH_ACCOUNT=	paulfloyd
 GH_PROJECT=	freebsd_valgrind
-GH_TAGNAME=	e1df1e6
+GH_TAGNAME=	bd87bbc
 
 CONFIGURE_ENV+=	ac_cv_path_PERL=${PERL}
 
